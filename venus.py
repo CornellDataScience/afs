@@ -14,7 +14,7 @@ venus_socket.bind((IP,PORT))
 #All sockets including venus
 sockets_list = [venus_socket]
 #client socket is key and data is value 
-vices = {}
+vice_data = {}
 
 def receive_message(vice_socket):
   try:
@@ -28,8 +28,19 @@ def receive_message(vice_socket):
         # Have to figure out buffering system 
         return {"header":message_header, "data":vice_socket.recv(message_length)}
   except:
-    pass
-
+    return False 
 
 while True: 
-  
+  #select.select takes first a read list and a write list 
+  read_sockets, _, exception_sockets = select.select(sockets_list, [], sockets_list)
+  for incoming_socket in read_sockets:
+    if incoming_socket == venus_socket:
+      vice_socket, vice_address = venus_socket.accept()
+      client_data = receive_message(vice_socket)
+
+      if client_data is False:
+        continue 
+
+      sockets_list.append(vice_socket)
+      vice_data[vice_socket] = client_data
+      print("Message received")
