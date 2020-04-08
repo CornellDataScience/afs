@@ -1,4 +1,5 @@
 import socket
+import select
 
 HEADER_LENGTH = 10
 IP = "127.0.0.1"
@@ -40,6 +41,16 @@ while True:
       if client_data is False:
         continue
 
-      sockets_list.append(vice_s32ocket)
+      sockets_list.append(vice_socket)
       vice_data[vice_socket] = client_data
       print("Message received")
+    else: 
+      message = receive_message(incoming_socket)
+      if message is False:
+        print(f"Closed Connection from {vice_data[incoming_socket]['data'].decode('utf-8')}")
+        sockets_list.remove(incoming_socket)
+        del vice_data[incoming_socket]
+        continue
+      user = vice_data[incoming_socket]
+      print(f"Received message from {user['data'].decode('utf-8')}")
+      #Below here is where you place message handling/protocols/propogation 
