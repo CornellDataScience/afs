@@ -1,25 +1,31 @@
 import socket
+import select
+import time
 
+#creating a hashtable of files
+dict = {}
+dict['a'] = 'alpha.txt'
+dict['g'] = 'gamma.txt'
+dict['o'] = 'omega.txt'
+
+HEADER_LENGTH = 10
+PORT = 1234
+#our server will receive up to 5 connections
+CONNECTION = 5
+# fetch request of the file
+reuqested_file = 'a'
+
+#Initialize and connect socket
 vice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-vice_socket.connect((socket.gethostname(),1234))
-#think about the directories are array of arrays
-home_directory = [[],[],[]]
-#the first index in the array is the hashed name of the directory
-home_directory[0][0] = hash('desired_directory')
+vice_socket.bind((socket.gethostname(),PORT))
+vice_socket.listen(CONNECTION)
 
-def open(file_name):
-  s.send(file_name)
-  while True:
-    msg = s.recv(1024)
-    print(msg.decode("utf-8"))
+while True:
+    clientsocket, address = vice_socket.accept()
+    print(f"Connection from {address} has been established")
 
+    msg = dict[reuqested_file]x
+    msg = f'{len(msg):<{HEADERSIZE}}' + time.time() + msg
+    clientsocket.send(bytes(msg, "tuf-8"))
 
-
-def send_message(directoryFID, desired_directory):
-    if directoryFID.equals(homeFID):
-        desired_d = hash(desired_directory)
-        for i in home_directory:
-            if home_directory[i][0] == desired_d:
-                #set up callbacks on the directory and the client
-                #how to generate FID or what is the FID of each directories and files
-                return home_directory[i][1:]
+#question: how to differentiate which files to send to different clients
