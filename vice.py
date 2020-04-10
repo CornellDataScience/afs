@@ -24,7 +24,7 @@ while True:
     clientsocket, address = vice_socket.accept()
     print(f"Connection from {address} has been established")
 
-    msg = dict[reuqested_file]x
+    msg = dict[reuqested_file]
     msg = f'{len(msg):<{HEADERSIZE}}' + time.time() + msg
     clientsocket.send(bytes(msg, "tuf-8"))
 
