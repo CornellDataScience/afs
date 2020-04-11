@@ -1,9 +1,17 @@
 import socket
 import select
+import json
 
 HEADER_LENGTH = 10
 IP = "127.0.0.1"
 PORT = 1234
+
+
+with open('parameter.json') as f:
+    data = json.load(f)
+HEADER_LENGTH = data['HEADER_LENGTH']
+IP = data["IP"]
+PORT = data['PORT']
 
 # Initialize and bind socket for stream and resuse same socket for
 # reconnection if it goes down

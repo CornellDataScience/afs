@@ -1,12 +1,23 @@
 import socket
 import select
 import time
+import json 
 
 #creating a hashtable of files
 dict = {}
 dict['a'] = 'alpha.txt'
 dict['g'] = 'gamma.txt'
 dict['o'] = 'omega.txt'
+
+
+with open('parameter.json') as f:
+    data = json.load(f)
+HEADER_LENGTH = data['HEADER_LENGTH']
+IP = data["IP"]
+PORT = data['PORT']
+CONNECTION = data['CONNECTION']
+
+
 
 HEADER_LENGTH = 10
 PORT = 1234
@@ -25,7 +36,7 @@ while True:
     print(f"Connection from {address} has been established")
 
     msg = dict[reuqested_file]
-    msg = f'{len(msg):<{HEADERSIZE}}' + time.time() + msg
+    msg = f'{len(msg):<{HEADER_LENGTH}}' + time.time() + msg
     clientsocket.send(bytes(msg, "tuf-8"))
 
 #question: how to differentiate which files to send to different clients
