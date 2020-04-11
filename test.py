@@ -21,10 +21,11 @@ class TestFileMethods(unittest.TestCase):
     def test_message(self):
         t_end = time.time() + 60 * TIME_OUT
         while time.time() < t_end:
-        #test whether the message was sent correctly
+        #test whether the message data was sent correctly
 
-    def test_split(self):
-       
+    def test_multiple_messages(self):
+        t_end = time.time() + 60 * TIME_OUT
+        while time.time() < t_end:
 
 if __name__ == '__main__':
     unittest.main()
