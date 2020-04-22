@@ -2,6 +2,10 @@ import socket
 import select
 import time
 import json 
+import pickle
+
+#CLIENT 
+
 
 #creating a hashtable of files
 dict = {}
@@ -30,6 +34,7 @@ requested_file = 'a'
 vice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 vice_socket.bind((socket.gethostname(),PORT))
 vice_socket.listen(CONNECTION)
+
 
 while True:
     clientsocket, address = vice_socket.accept()

@@ -2,9 +2,13 @@ import socket
 import select
 import json
 import enum
+import pickle
+
+
+#SERVER 
+
 
 HEADER_LENGTH = 10
-TYPE_LENGTH = 1
 IP = "127.0.0.1"
 PORT = 1234
 class message_type(enum.Enum):
@@ -38,9 +42,11 @@ def receive_message(vice_socket):
       return False
     else:
         message_length = int(message_header.decode("utf-8"))
+        message = pickle.load(vice_socket.recv(message_length))
         #Problematic because this assumes small messages, not the case for files
         # Have to figure out buffering system 
-        return {"header":message_header, "data":vice_socket.recv(message_length)}
+        return {"length":message_length, "type":message['type'], 
+        "time":message['time'], data:message['data']}
   except:
     return False
 
