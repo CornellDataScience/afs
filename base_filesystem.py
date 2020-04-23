@@ -9,6 +9,7 @@ import errno
 
 from fuse import FUSE, FuseOSError, Operations
 
+#venus would call this library and it would check whether the file is local or then send a afs request and get the file
 
 class Passthrough(Operations):
     def __init__(self, root):
@@ -98,6 +99,10 @@ class Passthrough(Operations):
     # ============
 
     def open(self, path, flags):
+
+        #this is where the local files are checked to see if there is a valid callback (so we need a local call back table)
+        # if so it is accessed 
+        # if its not local, then a request to afs must be sent, the file must be retrieved, stored, and returned
         full_path = self._full_path(path)
         return os.open(full_path, flags)
 
@@ -122,6 +127,7 @@ class Passthrough(Operations):
         return os.fsync(fh)
 
     def release(self, path, fh):
+        #send the file to vice and let it do its thing
         return os.close(fh)
 
     def fsync(self, path, fdatasync, fh):
