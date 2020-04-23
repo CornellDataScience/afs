@@ -1,17 +1,10 @@
 import socket
 import select
 import time
-import json 
+import json
 import pickle
 
-#CLIENT 
-
-
-#creating a hashtable of files
-dict = {}
-dict['a'] = 'alpha.txt'
-dict['g'] = 'gamma.txt'
-dict['o'] = 'omega.txt'
+#CLIENT
 
 
 with open('parameter.json') as f:
@@ -20,29 +13,23 @@ HEADER_LENGTH = data['HEADER_LENGTH']
 IP = data["IP"]
 PORT = data['PORT']
 CONNECTION = data['CONNECTION']
-
-
-
-HEADER_LENGTH = 10
-PORT = 1234
-#our server will receive up to 5 connections
-CONNECTION = 5
-# fetch request of the file
-requested_file = 'a'
+# all the files stored locally
+venus_data = {}
 
 #Initialize and connect socket
 vice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-vice_socket.bind((socket.gethostname(),PORT))
-vice_socket.listen(CONNECTION)
 
+def open(file_name):
+    if file_name in venus_data.key():
+        #check whether the file is stored locally
+        file = venus_data.get[file_name]
+        return False
+    else:
+        request_msg = file_name
+        type = "open"
 
 while True:
-    clientsocket, address = vice_socket.accept()
-    print(f"Connection from {address} has been established")
-
-    msg = dict[requested_file]
-    msg = f'{len(msg):<{HEADER_LENGTH}}' + time.time() + msg
-    clientsocket.send(bytes(msg, "utf-8")) 
-
-
-#question: how to differentiate which files to send to different clients
+    venus_socket, address = s.accept()
+    tstamp = time.time()
+    msg = str(len(request_msg)) + type + str(tstamp)
+    venus_socket.sned(bytes(msg, "utf-8"))
