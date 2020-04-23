@@ -24,6 +24,7 @@ class TestFileMethods(unittest.TestCase):
         #test whether the message data was sent correctly
 
     def test_multiple_messages(self):
+        #tests whether multiple messages are true
         t_end = time.time() + 60 * TIME_OUT
         while time.time() < t_end:
 

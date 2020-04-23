@@ -17,6 +17,11 @@ IP = data["IP"]
 PORT = data['PORT']
 CONNECTION = data['CONNECTION']
 
+HEADER_LENGTH = data['HEADER_LENGTH']
+IP = data["IP"]
+PORT = data['PORT']
+CONNECTION = data['CONNECTION']
+
 
 
 HEADER_LENGTH = 10
