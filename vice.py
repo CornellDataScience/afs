@@ -19,19 +19,13 @@ class message_type(enum.Enum):
 
 with open('parameter.json') as f:
     data = json.load(f)
-HEADER_LENGTH = data['HEADER_LENGTH']
-IP = data["IP"]
-PORT = data['PORT']
-<<<<<<< HEAD
-CONNECTION = data['CONNECTION']
 
+CONNECTION = data['CONNECTION']
 HEADER_LENGTH = data['HEADER_LENGTH']
 IP = data["IP"]
 PORT = data['PORT']
 CONNECTION = data['CONNECTION']
 
-=======
->>>>>>> 7bdbb6886691f69c14bfadadd309ebb3dcb8b89c
 
 # Initialize and bind socket for stream and resuse same socket for
 # reconnection if it goes down
@@ -67,7 +61,6 @@ while True:
     if incoming_socket == venus_socket:
       vice_socket, vice_address = venus_socket.accept()
       client_data = receive_message(vice_socket)
-
       if client_data is False:
         continue
 

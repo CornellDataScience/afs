@@ -7,18 +7,15 @@ import pickle
 #CLIENT
 
 
-with open('parameter.json') as f:
-    data = json.load(f)
-HEADER_LENGTH = data['HEADER_LENGTH']
-IP = data["IP"]
-PORT = data['PORT']
-CONNECTION = data['CONNECTION']
+HEADER_LENGTH = 4
+IP = "127.0.0.1"
+PORT = 1234
 # all the files stored locally
 venus_data = {}
 
 #Initialize and connect socket
 vice_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+vice_socket.connect((socket.gethostname(),PORT))
 def open(file_name):
     if file_name in venus_data.key():
         #check whether the file is stored locally
@@ -28,8 +25,15 @@ def open(file_name):
         request_msg = file_name
         type = "open"
 
+def request(file_name): 
+    if file_name in venus_data.key():
+        #get file from data and dont' send message
+        print ("file in local cache");
+    else:
+        # send message request
+        print ("file not in local cache");
+
 while True:
-    venus_socket, address = s.accept()
-    tstamp = time.time()
-    msg = str(len(request_msg)) + type + str(tstamp)
-    venus_socket.sned(bytes(msg, "utf-8"))
+    user_input = input("Please enter the action you would like to do (actions include" +
+    "request 'file_name' open 'file_name'):")
+    
