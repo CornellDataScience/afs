@@ -77,3 +77,8 @@ while True:
       user = vice_data[incoming_socket]
       print(f"Received message from {user['data'].decode('utf-8')}")
       #Below here is where you place message handling/protocols/propogation 
+      if message['type'] == message_type.file_request:
+        retrieve_file(message['body'])
+      elif (message['type'] == message_type.file_update):
+        print(message['file_name'] + " has been changed ")
+        # code to propagate changes and protocols
