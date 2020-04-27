@@ -19,11 +19,8 @@ class message_type(enum.Enum):
 
 with open('parameter.json') as f:
     data = json.load(f)
-HEADER_LENGTH = data['HEADER_LENGTH']
-IP = data["IP"]
-PORT = data['PORT']
-CONNECTION = data['CONNECTION']
 
+CONNECTION = data['CONNECTION']
 HEADER_LENGTH = data['HEADER_LENGTH']
 IP = data["IP"]
 PORT = data['PORT']
@@ -64,7 +61,6 @@ while True:
     if incoming_socket == venus_socket:
       vice_socket, vice_address = venus_socket.accept()
       client_data = receive_message(vice_socket)
-
       if client_data is False:
         continue
 
@@ -81,3 +77,8 @@ while True:
       user = vice_data[incoming_socket]
       print(f"Received message from {user['data'].decode('utf-8')}")
       #Below here is where you place message handling/protocols/propogation 
+      if message['type'] == message_type.file_request:
+        retrieve_file(message['body'])
+      elif (message['type'] == message_type.file_update):
+        print(message['file_name'] + " has been changed ")
+        # code to propagate changes and protocols
