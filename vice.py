@@ -22,7 +22,6 @@ with open('parameter.json') as f:
 HEADER_LENGTH = data['HEADER_LENGTH']
 IP = data["IP"]
 PORT = data['PORT']
-<<<<<<< HEAD
 CONNECTION = data['CONNECTION']
 
 HEADER_LENGTH = data['HEADER_LENGTH']
@@ -30,8 +29,6 @@ IP = data["IP"]
 PORT = data['PORT']
 CONNECTION = data['CONNECTION']
 
-=======
->>>>>>> 7bdbb6886691f69c14bfadadd309ebb3dcb8b89c
 
 # Initialize and bind socket for stream and resuse same socket for
 # reconnection if it goes down
