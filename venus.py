@@ -3,6 +3,9 @@ import select
 import time
 import json
 import pickle
+import venusfs
+from fuse import FUSE, FuseOSError, Operations
+
 
 #CLIENT
 
@@ -12,6 +15,9 @@ IP = "127.0.0.1"
 PORT = 1234
 # all the files stored locally
 venus_data = {}
+
+vice_file = FUSE(filesystem.Filesystem(root), "/", nothreads=True,
+         foreground=True, **{'allow_other': True})
 
 class myMessage:
     def __init__(self, file_name, type, change):
@@ -57,6 +63,9 @@ def open(file_name):
         file = venus_data.get[file_name]
         print ("file in local cache")
         return False
+        #venusfs
+
+
     else:
         # if not, make it a request message and run the request func
         file_name.type = "request"

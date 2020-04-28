@@ -3,6 +3,9 @@ import select
 import json
 import enum
 import pickle
+from vicefs import Vicefs
+import filesystem
+from fuse import FUSE, FuseOSError, Operations
 
 
 #SERVER 
@@ -26,7 +29,11 @@ IP = data["IP"]
 PORT = data['PORT']
 CONNECTION = data['CONNECTION']
 
+#need the root of the directory
+root = data["ROOT"]
 
+vice_file = FUSE(filesystem.Filesystem(root), "/", nothreads=True,
+         foreground=True, **{'allow_other': True})
 # Initialize and bind socket for stream and resuse same socket for
 # reconnection if it goes down
 venus_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -78,7 +85,7 @@ while True:
       print(f"Received message from {user['data'].decode('utf-8')}")
       #Below here is where you place message handling/protocols/propogation 
       if message['type'] == message_type.file_request:
-        retrieve_file(message['body'])
+        file_obj = vice_file.open(message['body'])
       elif (message['type'] == message_type.file_update):
         print(message['file_name'] + " has been changed ")
         # code to propagate changes and protocols
