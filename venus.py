@@ -64,9 +64,6 @@ def open(file_name):
         file = venus_data.get[file_name]
         print ("file in local cache")
         return False
-    else:
-        # if not, make it a request message and run the request func
-        file_name.type = "request"
 
 def request(request_msg):
     #establish connection with server
@@ -74,7 +71,13 @@ def request(request_msg):
     #create dic for the message
     message = request_msg.msg()
     serversocket.send(bytes(message, "utf-8")) #should this be vice_socket
-    print("file not in local cache, request sent")
+    print(f"file not in local cache, request sent")
+def close(message):
+    if message.change == 1:
+        print(f"the {message.message} has been changed")
+        msg = message.msg()
+        serversocket.send(bytes(msg, "utf-8"))
+        print(f"updated the server")
 
 
 while True:
@@ -83,7 +86,13 @@ while True:
     # initialize the input message as myMessage class
     message = myMessage(input_message, input_type)
     if message.type == "open":
-        open(message)
+        if input_message in venus_data:
+            file_obj = pickle.load(venus_data[input_message])
+        # if not, make it a request message and run the request func
+        else:
+            message.type = "request"
+            print(f"the {input_message} was deleted locally, request from the server")
+
     if message.type == "request":
         request(message)
         server_data = receive_message(venus_socket)
@@ -91,4 +100,4 @@ while True:
             continue
         print(f"Received message from the server")
         server_message = myMessage(server_data['body'], server_data['type'])
-        venus_data[server_message.convertStr()] = None #not sure how to express the content of the file
+        venus_data[server_message.convertStr()] = pickle.load(server_data['body'])
